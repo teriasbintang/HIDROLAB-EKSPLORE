@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIDROLAB - Inovasi Energi Terbarukan Pikohidro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        hydro: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            950: '#082f49',
+                        },
+                        tealish: {
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                        }
+                    },
+                    keyframes: {
+                        spinSlow: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' }
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: 1, filter: 'drop-shadow(0 0 15px rgba(14, 165, 233, 0.6))' },
+                            '50%': { opacity: 0.8, filter: 'drop-shadow(0 0 5px rgba(14, 165, 233, 0.2))' }
+                        }
+                    },
+                    animation: {
+                        'spin-turbine': 'spinSlow var(--turbine-speed, 3s) linear infinite',
+                        'pulse-glow': 'pulseGlow 3s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .glass-dark {
+            background: rgba(12, 74, 110, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-certificate, #printable-certificate * {
+                visibility: visible;
+            }
+            #printable-certificate {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-hydro-500 selection:text-white">
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Brand Logo -->
+                <a href="#home" class="flex items-center space-x-3 group">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-hydro-600 to-tealish-500 flex items-center justify-center text-white shadow-md shadow-hydro-500/20 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid font-bold fa-water-waves text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-extrabold bg-gradient-to-r from-hydro-800 via-hydro-600 to-tealish-600 bg-clip-text text-transparent">HIDROLAB</span>
+                        <span class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 -mt-1">Pikohidro Edu-Platform</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <a href="#home" class="px-3 py-2 text-sm font-semibold text-slate-600 hover:text-hydro-600 rounded-lg hover:bg-slate-100/80 transition">Beranda</a>
+                    <a href="#konsep" class="px-3 py-2 text-sm font-semibold text-slate-600 hover:text-hydro-600 rounded-lg hover:bg-slate-100/80 transition">Konsep Pikohidro</a>
+                    <a href="#simulasi" class="px-3 py-2 text-sm font-semibold text-slate-600 hover:text-hydro-600 rounded-lg hover:bg-slate-100/80 transition">Simulator</a>
+                    <a href="#modul" class="px-3 py-2 text-sm font-semibold text-slate-600 hover:text-hydro-600 rounded-lg hover:bg-slate-100/80 transition">Modul Ajar</a>
+                    <a href="#kuis" class="ml-3 px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-hydro-600 to-tealish-500 hover:from-hydro-700 hover:to-tealish-600 rounded-xl shadow-md shadow-hydro-500/20 hover:shadow-lg transition transform active:scale-95">
+                        <i class="fa-solid fa-graduation-cap mr-1.5"></i>Kuis & Sertifikat
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="p-2 rounded-lg text-slate-600 hover:text-hydro-600 hover:bg-slate-100 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
+            <a href="#home" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100">Beranda</a>
+            <a href="#konsep" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100">Konsep Pikohidro</a>
+            <a href="#simulasi" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100">Simulator Interaktif</a>
+            <a href="#modul" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100">Modul Ajar</a>
+            <a href="#kuis" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-semibold text-hydro-600 hover:bg-hydro-50">Kuis & Sertifikat</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative overflow-hidden bg-gradient-to-b from-hydro-900 via-hydro-800 to-slate-900 text-white pt-16 pb-24 md:pt-24 md:pb-32">
+        <!-- Abstract Background Effects -->
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-hydro-400/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-tealish-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-hydro-500/20 border border-hydro-400/30 text-hydro-300 text-xs font-semibold uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-teal-400 animate-ping"></span>
+                        <span>Konsep Baru Pembangkit Listrik Air Skala Mikro</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                        Energi Bersih Bebas Emisi dari <span class="bg-gradient-to-r from-hydro-300 via-teal-300 to-white bg-clip-text text-transparent">Aliran Air Sekitar</span>
+                    </h1>
+
+                    <p class="text-slate-300 text-lg sm:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
+                        Selamat datang di <strong class="text-white font-semibold">HIDROLAB</strong>. Media edukasi dan simulasi terpadu untuk memahami teknologi <strong class="text-hydro-300 font-semibold">Pikohidro (&lt; 5 kW)</strong>—solusi pemanfaatan potensi air sekitar menjadi energi listrik mandiri yang ramah lingkungan.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#simulasi" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-hydro-500 to-tealish-500 hover:from-hydro-600 hover:to-tealish-600 text-white font-bold rounded-xl shadow-lg shadow-hydro-500/30 hover:shadow-xl transition transform hover:-translate-y-0.5 text-center">
+                            <i class="fa-solid fa-calculator mr-2"></i>Coba Simulasi
+                        </a>
+                        <a href="#modul" class="w-full sm:w-auto px-8 py-4 bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold rounded-xl transition text-center">
+                            <i class="fa-solid fa-book-open mr-2"></i>Baca Modul Ajar
+                        </a>
+                    </div>
+
+                    <!-- Quick Highlights/Stats -->
+                    <div class="grid grid-cols-3 gap-4 pt-8 border-t border-slate-800 max-w-xl mx-auto lg:mx-0">
+                        <div class="text-center lg:text-left">
+                            <span class="block text-2xl sm:text-3xl font-extrabold text-white">&lt; 5 kW</span>
+                            <span class="text-xs text-slate-400">Daya Pikohidro</span>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <span class="block text-2xl sm:text-3xl font-extrabold text-teal-400">24/7</span>
+                            <span class="text-xs text-slate-400">Energi Berkelanjutan</span>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <span class="block text-2xl sm:text-3xl font-extrabold text-hydro-300">0%</span>
+                            <span class="text-xs text-slate-400">Emisi Karbon</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual Element -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md">
+                        <!-- Decorative Frame -->
+                        <div class="absolute -inset-1 bg-gradient-to-r from-hydro-500 to-teal-400 rounded-3xl blur opacity-30 animate-pulse-glow"></div>
+                        
+                        <div class="relative bg-slate-900/90 border border-slate-800 p-6 rounded-3xl text-center space-y-6 shadow-2xl">
+                            <div class="flex justify-between items-center text-xs text-slate-400 border-b border-slate-800 pb-3">
+                                <span><i class="fa-solid fa-vial mr-1 text-hydro-400"></i> HIDROLAB Visualizer</span>
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono text-[10px]">SYSTEM READY</span>
+                            </div>
+
+                            <!-- Animated Hydro Turbine SVG Graphics -->
+                            <div class="py-6 flex justify-center items-center relative">
+                                <!-- Water flow representation -->
+                                <div class="absolute top-0 w-2 h-full bg-gradient-to-b from-hydro-400 to-tealish-500 rounded-full opacity-60 animate-pulse"></div>
+                                
+                                <!-- Turbine Icon -->
+                                <div class="relative z-10 w-36 h-36 rounded-full border-4 border-hydro-500/40 p-2 bg-slate-800/80 flex items-center justify-center shadow-inner">
+                                    <svg id="hero-turbine-svg" class="w-24 h-24 text-hydro-400 animate-spin-turbine" style="--turbine-speed: 2.5s" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h-2zm0 8h2v4h-2zm-4-4h4v2H7zm8 0h4v2h-4z"/>
+                                        <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-800/60 p-4 rounded-xl text-left space-y-2 border border-slate-700/50">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-400">Output Energi Ideal:</span>
+                                    <span class="text-emerald-400 font-bold font-mono">1,250 Watt</span>
+                                </div>
+                                <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-hydro-400 to-tealish-400 h-full w-[65%]"></div>
+                                </div>
+                                <p class="text-[11px] text-slate-400 italic">"Memanfaatkan debit air sungai kecil & tinggi jatuhan alami tanpa merusak ekosistem."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Konsep Baru Pikohidro -->
+    <section id="konsep" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-hydro-600 mb-2">Konsep Baru Hidrolab</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Mengapa Pikohidro Menjadi Masa Depan Energi Terpencil?</h3>
+                <p class="mt-4 text-slate-600 leading-relaxed">
+                    Pikohidro adalah pembangkit listrik tenaga air dengan kapasitas daya di bawah <strong>5 Kilowatt (5.000 Watt)</strong>. Tidak memerlukan bendungan raksasa, cukup memanfaatkan aliran selokan, sungai kecil, atau saluran irigasi.
+                </p>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-slate-50 border border-slate-100 rounded-2xl p-6 hover:shadow-xl transition duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-hydro-100 text-hydro-600 flex items-center justify-center text-xl font-bold mb-5">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-900 mb-2">Ramah Lingkungan</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Tidak menghasilkan limbah gas buang emisi karbon. Aliran air yang digunakan dikembalikan secara utuh ke alam.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-slate-50 border border-slate-100 rounded-2xl p-6 hover:shadow-xl transition duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center text-xl font-bold mb-5">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-900 mb-2">Kontinu 24/7</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Berbeda dengan panel surya yang bergantung sinar matahari siang hari, air mengalir terus-menerus tanpa henti.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-slate-50 border border-slate-100 rounded-2xl p-6 hover:shadow-xl transition duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl font-bold mb-5">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-900 mb-2">Biaya Operasional Rendah</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Bahan bakar utama adalah air gratis dari alam. Komponen turbin sederhana dan biaya perawatan sangat efisien.
+                    </p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-slate-50 border border-slate-100 rounded-2xl p-6 hover:shadow-xl transition duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl font-bold mb-5">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-900 mb-2">Skala Komunitas & Edukasi</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Sangat cocok diterapkan di pedesaan terpencil, pondok pesantren, daerah pegunungan, maupun laboratorium riset.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Comparison Banner -->
+            <div class="mt-16 bg-gradient-to-r from-slate-900 to-hydro-950 rounded-3xl p-8 sm:p-10 text-white shadow-2xl relative overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h4 class="text-2xl font-bold mb-3">Pikohidro vs Sumber Energi Lainnya</h4>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Seringkali daerah pedesaan bergantung pada genset diesel yang mahal & berpolusi. Pikohidro memberikan kestabilan energi yang lebih konsisten tanpa bergantung pada bahan bakar fosil.
+                        </p>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                <span class="text-sm font-medium">Biaya Bahan Bakar: **Rp 0,-** (Menggunakan Air)</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                <span class="text-sm font-medium">Keandalan: Tidak terpengaruh cuaca mendung/malam hari</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                <span class="text-sm font-medium">Masa Pakai Peralatan: Panjang & Mudah Dirawat</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 space-y-4">
+                        <div class="flex justify-between items-center text-sm border-b border-slate-700 pb-2">
+                            <span class="text-slate-400">Kapasitas Pembangkit Air:</span>
+                            <span class="font-bold text-hydro-300">Klasifikasi Standar</span>
+                        </div>
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between">
+                                <span>Pikohidro</span>
+                                <span class="font-bold text-teal-400">&lt; 5 kW</span>
+                            </div>
+                            <div class="flex justify-between text-slate-400">
+                                <span>Mikrohidro</span>
+                                <span>5 kW - 100 kW</span>
+                            </div>
+                            <div class="flex justify-between text-slate-400">
+                                <span>Minihidro</span>
+                                <span>100 kW - 1 MW</span>
+                            </div>
+                            <div class="flex justify-between text-slate-400">
+                                <span>PLTA Skala Besar</span>
+                                <span>&gt; 10 MW</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Section: Simulasi & Kalkulator Interaktif -->
+    <section id="simulasi" class="py-20 bg-slate-100 border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="px-3 py-1 rounded-full bg-hydro-100 text-hydro-700 text-xs font-bold uppercase tracking-wider">Laboratorium Digital</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">Simulator Potensi Energi Pikohidro</h2>
+                <p class="mt-3 text-slate-600">
+                    Geser nilai <strong>Debit Air (Q)</strong> dan <strong>Ketinggian Jatuh / Head (H)</strong> di bawah ini untuk mengkalkulasi daya listrik secara real-time.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Calculator Controls (Left Column) -->
+                <div class="lg:col-span-6 bg-white p-6 sm:p-8 rounded-3xl shadow-lg border border-slate-200/80 space-y-6">
+                    <h3 class="text-xl font-bold text-slate-900 flex items-center">
+                        <i class="fa-solid fa-sliders text-hydro-600 mr-2.5"></i> Parameter Aliran Air
+                    </h3>
+
+                    <!-- Slider 1: Debit Air (Q) -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <label for="flow-rate" class="text-sm font-bold text-slate-700">
+                                Debit Air ($Q$): <span class="text-xs font-normal text-slate-500">(Volume air per detik)</span>
+                            </label>
+                            <span class="text-lg font-extrabold text-hydro-600 font-mono"><span id="flow-val">30</span> L/detik</span>
+                        </div>
+                        <input type="range" id="flow-rate" min="5" max="150" step="5" value="30" class="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-hydro-600">
+                        <div class="flex justify-between text-[11px] text-slate-400 font-mono">
+                            <span>5 L/s (Sangat Kecil)</span>
+                            <span>75 L/s</span>
+                            <span>150 L/s (Sungai Deras)</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider 2: Ketinggian Jatuh / Head (H) -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <label for="head-height" class="text-sm font-bold text-slate-700">
+                                Ketinggian Jatuh Air ($H$): <span class="text-xs font-normal text-slate-500">(Head)</span>
+                            </label>
+                            <span class="text-lg font-extrabold text-tealish-600 font-mono"><span id="head-val">4</span> Meter</span>
+                        </div>
+                        <input type="range" id="head-height" min="1" max="20" step="0.5" value="4" class="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-tealish-600">
+                        <div class="flex justify-between text-[11px] text-slate-400 font-mono">
+                            <span>1 M (Air Terjun Rendah)</span>
+                            <span>10 M</span>
+                            <span>20 M (Tinggi)</span>
+                        </div>
+                    </div>
+
+                    <!-- Efisiensi Sistem Toggle / Preset -->
+                    <div class="pt-4 border-t border-slate-100">
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Perkiraan Efisiensi Turbin & Generator ($\eta$):</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button class="eff-btn py-2 px-3 text-xs font-semibold rounded-xl border border-slate-200 hover:border-hydro-500 transition active bg-hydro-50 text-hydro-700 border-hydro-500" data-eff="0.60">
+                                Standard (60%)
+                            </button>
+                            <button class="eff-btn py-2 px-3 text-xs font-semibold rounded-xl border border-slate-200 hover:border-hydro-500 transition text-slate-600" data-eff="0.70">
+                                Optimal (70%)
+                            </button>
+                            <button class="eff-btn py-2 px-3 text-xs font-semibold rounded-xl border border-slate-200 hover:border-hydro-500 transition text-slate-600" data-eff="0.80">
+                                Maksimal (80%)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Formula Info Box -->
+                    <div class="bg-slate-50 p-4 rounded-2xl text-xs text-slate-600 space-y-1 font-mono">
+                        <div class="font-bold text-slate-800 font-sans mb-1"><i class="fa-solid fa-calculator mr-1"></i> Rumus Daya Listrik Hidro:</div>
+                        <p>$$P = \eta \times \rho \times g \times Q \times H$$</p>
+                        <p class="text-[11px] text-slate-500 font-sans">
+                            Keterangan: $g = 9,81\text{ m/s}^2$, $\rho = 1000\text{ kg/m}^3$ (massa jenis air).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Live Results Output (Right Column) -->
+                <div class="lg:col-span-6 space-y-6">
+                    
+                    <!-- Main Calculated Power Box -->
+                    <div class="bg-gradient-to-br from-hydro-900 to-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl relative overflow-hidden">
+                        <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-hydro-500/20 rounded-full blur-2xl"></div>
+
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-bold text-hydro-300 uppercase tracking-wider">Potensi Daya Listrik Dihasilkan</span>
+                            <span id="pico-status-badge" class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                SKALA PIKOHIDRO
+                            </span>
+                        </div>
+
+                        <div class="flex items-baseline space-x-3 my-2">
+                            <span id="power-output-watt" class="text-5xl sm:text-6xl font-extrabold tracking-tight font-mono text-white">0</span>
+                            <span class="text-2xl font-bold text-hydro-300">Watt</span>
+                        </div>
+                        <div class="text-sm text-slate-400 font-mono">
+                            Setara dengan <strong id="power-output-kw" class="text-teal-300 font-bold">0.00</strong> kW (Kilowatt)
+                        </div>
+
+                        <!-- Animated SVG Turbine in Simulator -->
+                        <div class="mt-6 pt-6 border-t border-slate-800 flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center">
+                                    <svg id="sim-turbine-svg" class="w-8 h-8 text-hydro-400 animate-spin-turbine" style="--turbine-speed: 2s" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h-2zm0 8h2v4h-2zm-4-4h4v2H7zm8 0h4v2h-4z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-slate-400">Putaran Turbin:</span>
+                                    <span id="turbine-speed-text" class="text-sm font-bold text-white">Sedang (approx. 450 RPM)</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="block text-xs text-slate-400">Estimasi Energi/Hari:</span>
+                                <span id="kwh-daily" class="text-sm font-bold text-teal-300 font-mono">0.0 kWh</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- What can this power operate? (Real World Loads) -->
+                    <div class="bg-white p-6 rounded-3xl shadow-md border border-slate-200/80 space-y-4">
+                        <h4 class="text-base font-bold text-slate-900 flex items-center">
+                            <i class="fa-solid fa-plug text-tealish-600 mr-2"></i> Simulasi Beban Listrik yang Bisa Dinyalakan:
+                        </h4>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <!-- Lampu LED -->
+                            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 text-center">
+                                <i class="fa-solid fa-lightbulb text-amber-500 text-xl mb-1"></i>
+                                <span class="block text-xs text-slate-500">Lampu LED 10W</span>
+                                <span id="load-led" class="block text-lg font-extrabold text-slate-800 font-mono">0</span>
+                                <span class="text-[10px] text-slate-400">Buah</span>
+                            </div>
+
+                            <!-- Charger HP -->
+                            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 text-center">
+                                <i class="fa-solid fa-mobile-screen-button text-blue-500 text-xl mb-1"></i>
+                                <span class="block text-xs text-slate-500">Charger HP 15W</span>
+                                <span id="load-phone" class="block text-lg font-extrabold text-slate-800 font-mono">0</span>
+                                <span class="text-[10px] text-slate-400">HP</span>
+                            </div>
+
+                            <!-- TV LED -->
+                            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 text-center">
+                                <i class="fa-solid fa-tv text-purple-500 text-xl mb-1"></i>
+                                <span class="block text-xs text-slate-500">TV LED 60W</span>
+                                <span id="load-tv" class="block text-lg font-extrabold text-slate-800 font-mono">0</span>
+                                <span class="text-[10px] text-slate-400">Unit</span>
+                            </div>
+
+                            <!-- Kipas / Magic Com -->
+                            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 text-center">
+                                <i class="fa-solid fa-fan text-teal-500 text-xl mb-1"></i>
+                                <span class="block text-xs text-slate-500">Kipas Angin 40W</span>
+                                <span id="load-fan" class="block text-lg font-extrabold text-slate-800 font-mono">0</span>
+                                <span class="text-[10px] text-slate-400">Unit</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Modul Ajar (Interactive Card & Tab Format) -->
+    <section id="modul" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider">Modul Belajar Awam</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">Panduan Pintar Energi Terbarukan & Pikohidro</h2>
+                <p class="mt-3 text-slate-600">
+                    Materi disajikan secara sederhana, padat, dan mudah dipahami oleh siapa saja tanpa perlu latar belakang teknik.
+                </p>
+            </div>
+
+            <!-- Tab Navigation Header -->
+            <div class="flex flex-wrap justify-center gap-2 mb-10 border-b border-slate-200 pb-4">
+                <button class="modul-tab-btn px-5 py-2.5 rounded-xl text-sm font-bold transition flex items-center space-x-2 bg-hydro-600 text-white shadow-md shadow-hydro-500/20" data-target="modul-1">
+                    <i class="fa-solid fa-sun"></i>
+                    <span>Bab 1: Energi Terbarukan</span>
+                </button>
+                <button class="modul-tab-btn px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center space-x-2" data-target="modul-2">
+                    <i class="fa-solid fa-water"></i>
+                    <span>Bab 2: Mengenal Pikohidro</span>
+                </button>
+                <button class="modul-tab-btn px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center space-x-2" data-target="modul-3">
+                    <i class="fa-solid fa-gears"></i>
+                    <span>Bab 3: Komponen HIDROLAB</span>
+                </button>
+                <button class="modul-tab-btn px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition flex items-center space-x-2" data-target="modul-4">
+                    <i class="fa-solid fa-hand-holding-hand"></i>
+                    <span>Bab 4: Manfaat Sehari-Hari</span>
+                </button>
+            </div>
+
+            <!-- Tab Content Display Box -->
+            <div class="bg-slate-50 border border-slate-200/80 rounded-3xl p-6 sm:p-10 shadow-sm min-h-[400px]">
+                
+                <!-- BAB 1 CONTENT -->
+                <div id="modul-1" class="modul-content space-y-6">
+                    <div class="flex items-center space-x-3 text-hydro-600">
+                        <i class="fa-solid fa-seedling text-3xl"></i>
+                        <h3 class="text-2xl font-extrabold text-slate-900">Bab 1: Apa itu Energi Terbarukan?</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4 text-slate-600 text-sm leading-relaxed">
+                            <p>
+                                <strong class="text-slate-900">Analogi Sederhana:</strong> Bayangkan Anda memiliki rekening tabungan bank. Jika tabungan itu disi terus oleh gaji bulanan, tabungan tersebut tak akan habis (Energi Terbarukan). Sebaliknya, jika Anda hanya memakai uang warisan tua tanpa pernah mengisinya kembali, lama-lama uang itu akan habis total (Bahan Bakar Fosil).
+                            </p>
+                            <p>
+                                <strong>Energi Terbarukan</strong> adalah sumber energi yang berasal dari alam dan dapat terus diproduksi secara alami tanpa pernah habis—seperti matahari, angin, dan **aliran air**.
+                            </p>
+                            <div class="p-4 rounded-2xl bg-hydro-50 border border-hydro-200 text-hydro-900">
+                                <h5 class="font-bold mb-1"><i class="fa-solid fa-circle-info mr-1"></i> Mengapa Kita Harus Beralih?</h5>
+                                <p class="text-xs">
+                                    Minyak bumi dan batu bara menghasilkan asap beracun (CO2) yang merusak iklim bumi. Energi air aman, bersih, dan gratis selamanya!
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-4">
+                            <h4 class="font-bold text-slate-800 text-sm border-b pb-2">Perbandingan Ringkas</h4>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center font-bold text-xs"><i class="fa-solid fa-smog"></i></div>
+                                <div class="text-xs">
+                                    <strong class="text-slate-800 block">Energi Fosil (Batu Bara / Bensin)</strong>
+                                    <span>Bisa habis, mencemari udara, makin lama makin mahal.</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs"><i class="fa-solid fa-droplet"></i></div>
+                                <div class="text-xs">
+                                    <strong class="text-slate-800 block">Energi Air (Pikohidro)</strong>
+                                    <span>Selalu ada, tanpa asap, hemat biaya jangka panjang.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BAB 2 CONTENT -->
+                <div id="modul-2" class="modul-content hidden space-y-6">
+                    <div class="flex items-center space-x-3 text-hydro-600">
+                        <i class="fa-solid fa-water text-3xl"></i>
+                        <h3 class="text-2xl font-extrabold text-slate-900">Bab 2: Mengenal Teknologi Pikohidro</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4 text-slate-600 text-sm leading-relaxed">
+                            <p>
+                                Kata <strong>"Piko"</strong> berarti sangat kecil (dalam satuan daya berarti di bawah 5.000 Watt). Istilah sederhananya: Pikohidro adalah **Kincir Air Modern versi Ringkas**.
+                            </p>
+                            <p>
+                                Prisip kerjanya sangat sederhana:
+                            </p>
+                            <ol class="list-decimal pl-5 space-y-2 font-medium text-slate-700">
+                                <li>Air mengalir dari tempat tinggi menuju tempat rendah (memiliki Energi Potensial).</li>
+                                <li>Dorongan air menumbuk sudu-sudu turbin hingga berputar (Energi Mekanis).</li>
+                                <li>Putaran turbin memutar dinamo/generator untuk menghasilkan listrik (Energi Listrik).</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-hydro-900 to-slate-900 p-6 rounded-2xl text-white space-y-3">
+                            <h4 class="font-bold text-hydro-300 text-sm"><i class="fa-solid fa-lightbulb text-amber-400 mr-2"></i>Tahukah Kamu?</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Daya sebesar **1.000 Watt (1 kW)** dari unit Pikohidro sudah cukup untuk menyalakan hingga **100 lampu LED hemat energi** di pemukiman desa terpencil!
+                            </p>
+                            <div class="pt-3 border-t border-slate-800 flex justify-between text-xs">
+                                <span>Syarat Utama:</span>
+                                <span class="font-bold text-teal-300">Ada Aliran Air + Beda Ketinggian</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BAB 3 CONTENT -->
+                <div id="modul-3" class="modul-content hidden space-y-6">
+                    <div class="flex items-center space-x-3 text-hydro-600">
+                        <i class="fa-solid fa-cubes text-3xl"></i>
+                        <h3 class="text-2xl font-extrabold text-slate-900">Bab 3: Komponen Utama HIDROLAB</h3>
+                    </div>
+
+                    <p class="text-slate-600 text-sm">
+                        Sistem HIDROLAB Pikohidro dirancang dari 4 komponen utama yang bekerja selaras:
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center space-y-2">
+                            <div class="w-10 h-10 mx-auto rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">1</div>
+                            <h5 class="font-bold text-slate-800 text-sm">Pipa Pesat (Penstock)</h5>
+                            <p class="text-xs text-slate-500">Pipa untuk meluncurkan air ke bawah agar kecepatan & tekanannya meningkat pesat.</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center space-y-2">
+                            <div class="w-10 h-10 mx-auto rounded-full bg-teal-100 text-teal-600 flex items-center justify-center font-bold">2</div>
+                            <h5 class="font-bold text-slate-800 text-sm">Turbin Air</h5>
+                            <p class="text-xs text-slate-500">Roda bersipet/baling-baling yang berputar saat disemprotkan dorongan air bertekanan.</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center space-y-2">
+                            <div class="w-10 h-10 mx-auto rounded-full bg-amber-100 text-amber-600 flex items-center justify-center font-bold">3</div>
+                            <h5 class="font-bold text-slate-800 text-sm">Generator (Dinamo)</h5>
+                            <p class="text-xs text-slate-500">Mengubah energi putaran mekanik turbin menjadi arus listrik bolak-balik (AC) / searah (DC).</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 text-center space-y-2">
+                            <div class="w-10 h-10 mx-auto rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold">4</div>
+                            <h5 class="font-bold text-slate-800 text-sm">Control Unit</h5>
+                            <p class="text-xs text-slate-500">Stabilisator tegangan listrik agar tidak merusak alat elektronik rumah tangga.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BAB 4 CONTENT -->
+                <div id="modul-4" class="modul-content hidden space-y-6">
+                    <div class="flex items-center space-x-3 text-hydro-600">
+                        <i class="fa-solid fa-heart-pulse text-3xl"></i>
+                        <h3 class="text-2xl font-extrabold text-slate-900">Bab 4: Manfaat Langsung Pikohidro</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-house-signal"></i></div>
+                            <h4 class="font-bold text-slate-800">Kemandirian Energi Desa</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                Masyarakat di daerah pedalaman dapat menikmati penerangan malam hari tanpa menggantungkan nasib pada pasokan BBM genset.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-lg"><i class="fa-solid fa-graduation-cap"></i></div>
+                            <h4 class="font-bold text-slate-800">Media Pembelajaran Praktis</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                HIDROLAB menjadi sarana ideal bagi siswa & mahasiswa untuk mempelajari fisika konversi energi secara nyata dan menyenangkan.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg"><i class="fa-solid fa-tree"></i></div>
+                            <h4 class="font-bold text-slate-800">Menjaga Kelestarian Hutan</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                Agar air terus mengalir, masyarakat secara alami terdorong untuk merawat pohon dan kelestarian hutan di daerah aliran sungai.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Kuis Interaktif & Sertifikat Digital -->
+    <section id="kuis" class="py-20 bg-slate-900 text-white relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <div class="text-center mb-12">
+                <span class="px-3 py-1 rounded-full bg-hydro-500/20 text-hydro-300 border border-hydro-400/30 text-xs font-bold uppercase tracking-wider">Evaluasi Belajar</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-2">Kuis Pemahaman Energi & HIDROLAB</h2>
+                <p class="mt-3 text-slate-400 text-sm">
+                    Uji pemahaman Anda tentang energi terbarukan pikohidro. Jawab dengan benar untuk mendapatkan **Sertifikat Kelulusan Digital**!
+                </p>
+            </div>
+
+            <!-- Quiz Card Container -->
+            <div id="quiz-container" class="bg-slate-800/90 border border-slate-700/80 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-8">
+                
+                <!-- Quiz Header Progress -->
+                <div class="flex justify-between items-center text-xs font-semibold border-b border-slate-700 pb-4">
+                    <span id="quiz-step-text" class="text-hydro-400">Pertanyaan 1 dari 6</span>
+                    <span id="quiz-score-badge" class="px-2.5 py-1 rounded-lg bg-slate-700 text-slate-300">Skor: 0</span>
+                </div>
+
+                <!-- Question Text -->
+                <div class="space-y-4">
+                    <h3 id="quiz-question-text" class="text-lg sm:text-xl font-bold leading-snug text-white">
+                        Memuat pertanyaan...
+                    </h3>
+                    
+                    <!-- Options Grid -->
+                    <div id="quiz-options-grid" class="grid grid-cols-1 gap-3 pt-2">
+                        <!-- Dynamic Options Loaded via JS -->
+                    </div>
+                </div>
+
+                <!-- Direct Feedback Box -->
+                <div id="quiz-feedback" class="hidden p-4 rounded-2xl text-xs space-y-1 transition-all">
+                    <!-- Feedback injected dynamically -->
+                </div>
+
+                <!-- Footer Action Buttons -->
+                <div class="flex justify-between items-center pt-4 border-t border-slate-700">
+                    <button id="quiz-prev-btn" class="hidden px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:bg-slate-700">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> Sebelumnya
+                    </button>
+                    <div class="ml-auto">
+                        <button id="quiz-next-btn" disabled class="px-6 py-2.5 rounded-xl text-xs font-bold bg-hydro-600 text-white hover:bg-hydro-500 disabled:opacity-40 disabled:cursor-not-allowed transition">
+                            Pertanyaan Selanjutnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Quiz Results Summary Box (Hidden Initially) -->
+            <div id="quiz-result-box" class="hidden bg-slate-800 border border-slate-700 rounded-3xl p-8 sm:p-10 text-center space-y-6 shadow-2xl">
+                <div class="w-20 h-20 mx-auto rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-4xl border border-emerald-500/40">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="text-2xl font-bold">Selamat! Anda Telah Menyelesaikan Kuis</h3>
+                    <p class="text-sm text-slate-400">Berikut adalah hasil pencapaian belajar Anda di HIDROLAB:</p>
+                </div>
+
+                <div class="inline-block bg-slate-900/80 px-8 py-4 rounded-2xl border border-slate-700">
+                    <span class="block text-xs uppercase text-slate-400 font-bold mb-1">Skor Akhir Anda</span>
+                    <span id="final-score-text" class="text-5xl font-extrabold text-teal-400 font-mono">0 / 100</span>
+                </div>
+
+                <p id="final-eval-message" class="text-xs text-slate-300 max-w-md mx-auto">
+                    Luar biasa! Pemahaman Anda tentang teknologi energi pikohidro sangat memuaskan.
+                </p>
+
+                <!-- Input Candidate Name for Certificate -->
+                <div class="max-w-md mx-auto pt-4 space-y-3">
+                    <label for="user-cert-name" class="block text-xs font-semibold text-slate-300 text-left">Masukkan Nama Lengkap Anda untuk Sertifikat:</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="user-cert-name" placeholder="Contoh: Budi Santoso, S.T." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-hydro-500">
+                        <button id="generate-cert-btn" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-tealish-500 to-hydro-500 text-white font-bold text-xs hover:opacity-90 transition whitespace-nowrap">
+                            <i class="fa-solid fa-certificate mr-1"></i> Lihat Sertifikat
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Modal Sertifikat Belajar Digital (Hidden by default) -->
+    <div id="certificate-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white text-slate-900 max-w-3xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl relative space-y-6 my-8">
+            
+            <!-- Close Modal Button -->
+            <button id="close-cert-btn" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Printable Certificate Body -->
+            <div id="printable-certificate" class="border-8 border-double border-hydro-800 p-8 rounded-2xl bg-gradient-to-br from-white via-hydro-50/30 to-slate-50 text-center space-y-6 relative overflow-hidden">
+                
+                <!-- Watermark Logo -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
+                    <i class="fa-solid fa-water-waves text-[250px] text-hydro-900"></i>
+                </div>
+
+                <!-- Cert Header -->
+                <div class="space-y-1">
+                    <div class="flex justify-center items-center space-x-2 text-hydro-700 font-extrabold text-xl">
+                        <i class="fa-solid fa-water-waves"></i>
+                        <span>HIDROLAB INDONESIA</span>
+                    </div>
+                    <span class="block text-[10px] uppercase tracking-widest text-slate-400 font-bold">Pusat Edukasi Energi Terbarukan & Pikohidro</span>
+                </div>
+
+                <div class="space-y-2 py-2">
+                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-wide font-serif">SERTIFIKAT KELULUSAN</h2>
+                    <p class="text-xs text-slate-500 uppercase tracking-widest">Diberikan secara resmi kepada:</p>
+                </div>
+
+                <!-- Recipient Name -->
+                <div class="py-2 border-b-2 border-hydro-700/40 inline-block px-12">
+                    <h3 id="cert-holder-name" class="text-2xl sm:text-3xl font-bold text-hydro-900 font-serif">Nama Peserta</h3>
+                </div>
+
+                <p class="text-xs text-slate-600 max-w-lg mx-auto leading-relaxed">
+                    Atas keberhasilan dan kelulusan dalam menyelesaikan modul edukasi serta kuis evaluasi pemahaman dasar <strong class="text-slate-800">Pembangkit Listrik Tenaga Pikohidro</strong> pada platform HIDROLAB dengan predikat memuaskan.
+                </p>
+
+                <!-- Certificate Metadata Footer -->
+                <div class="grid grid-cols-3 items-center pt-8 border-t border-slate-200 text-xs text-slate-500">
+                    <div class="text-left">
+                        <span class="block text-[10px] text-slate-400">Tanggal Terbit:</span>
+                        <span id="cert-date" class="font-semibold text-slate-700">30 September 2026</span>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <div class="w-16 h-16 rounded-full bg-hydro-600 text-white flex items-center justify-center text-2xl shadow-lg border-2 border-white">
+                            <i class="fa-solid fa-certificate"></i>
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+                        <span class="block text-[10px] text-slate-400">ID Sertifikat:</span>
+                        <span id="cert-id" class="font-mono text-[11px] font-bold text-hydro-800">HDL-2026-8942</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Printable Actions -->
+            <div class="flex justify-end space-x-3 pt-2">
+                <button onclick="window.print()" class="px-6 py-2.5 rounded-xl bg-hydro-700 text-white font-bold text-xs hover:bg-hydro-800 transition">
+                    <i class="fa-solid fa-print mr-1.5"></i> Cetak / Unduh PDF
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 text-xs py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-2 text-white font-bold text-lg">
+                        <i class="fa-solid fa-water-waves text-hydro-400"></i>
+                        <span>HIDROLAB</span>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed">
+                        Inovasi media belajar & simulasi interaktif pembangkit listrik air skala pikohidro untuk masyarakat Indonesia.
+                    </p>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold mb-3">Navigasi</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="hover:text-hydro-400 transition">Beranda</a></li>
+                        <li><a href="#konsep" class="hover:text-hydro-400 transition">Konsep Baru</a></li>
+                        <li><a href="#simulasi" class="hover:text-hydro-400 transition">Simulator Pikohidro</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold mb-3">Edukasi</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#modul" class="hover:text-hydro-400 transition">Modul Energi Terbarukan</a></li>
+                        <li><a href="#kuis" class="hover:text-hydro-400 transition">Kuis Interaktif</a></li>
+                        <li><a href="#kuis" class="hover:text-hydro-400 transition">Sertifikat Belajar</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold mb-3">Prinsip HIDROLAB</h5>
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-[11px] text-slate-300">
+                        <i class="fa-solid fa-quote-left text-hydro-400 mr-1"></i>
+                        "Energi terbarukan tidak harus rumit. Dari aliran air kecil di sekitar kita, terang energi bagi masa depan diciptakan."
+                    </div>
+                </div>
+            </div>
+            <div class="pt-6 border-t border-slate-900 flex flex-col sm:flex-row justify-between items-center text-[11px] text-slate-500">
+                <span>&copy; 2026 HIDROLAB Indonesia. Hak Cipta Dilindungi.</span>
+                <span class="mt-2 sm:mt-0">Dirancang untuk Edukasi Energi Terbarukan</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic Section -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- 1. Mobile Menu Toggle ---
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // --- 2. Interactive Pico-hydro Calculator Logic ---
+            const flowInput = document.getElementById('flow-rate');
+            const headInput = document.getElementById('head-height');
+            const flowValDisplay = document.getElementById('flow-val');
+            const headValDisplay = document.getElementById('head-val');
+            
+            const powerWattDisplay = document.getElementById('power-output-watt');
+            const powerKwDisplay = document.getElementById('power-output-kw');
+            const kwhDailyDisplay = document.getElementById('kwh-daily');
+            const simTurbineSvg = document.getElementById('sim-turbine-svg');
+            const heroTurbineSvg = document.getElementById('hero-turbine-svg');
+            const turbineSpeedText = document.getElementById('turbine-speed-text');
+
+            // Load Counter Displays
+            const loadLed = document.getElementById('load-led');
+            const loadPhone = document.getElementById('load-phone');
+            const loadTv = document.getElementById('load-tv');
+            const loadFan = document.getElementById('load-fan');
+
+            let currentEfficiency = 0.60; // Default 60%
+
+            const effButtons = document.querySelectorAll('.eff-btn');
+            effButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    effButtons.forEach(b => {
+                        b.classList.remove('bg-hydro-50', 'text-hydro-700', 'border-hydro-500');
+                        b.classList.add('text-slate-600');
+                    });
+                    btn.classList.add('bg-hydro-50', 'text-hydro-700', 'border-hydro-500');
+                    currentEfficiency = parseFloat(btn.getAttribute('data-eff'));
+                    calculatePower();
+                });
+            });
+
+            function calculatePower() {
+                const Q_liters = parseFloat(flowInput.value); // L/s
+                const H_meters = parseFloat(headInput.value); // m
+                
+                flowValDisplay.textContent = Q_liters;
+                headValDisplay.textContent = H_meters;
+
+                // Formula: Power (W) = Efficiency * Density(1000) * Gravity(9.81) * Q(m^3/s) * H(m)
+                // Q(m^3/s) = Q(L/s) / 1000
+                // Simplify: P = Efficiency * 9.81 * Q_liters * H_meters
+                const powerWatt = currentEfficiency * 9.81 * Q_liters * H_meters;
+                const powerKw = powerWatt / 1000;
+                const kwhDaily = (powerWatt * 24) / 1000;
+
+                // Animate numbers
+                powerWattDisplay.textContent = Math.round(powerWatt).toLocaleString('id-ID');
+                powerKwDisplay.textContent = powerKw.toFixed(2);
+                kwhDailyDisplay.textContent = kwhDaily.toFixed(1) + ' kWh';
+
+                // Calculate Appliances loads
+                loadLed.textContent = Math.floor(powerWatt / 10);      // 10W per LED
+                loadPhone.textContent = Math.floor(powerWatt / 15);    // 15W per Charger
+                loadTv.textContent = Math.floor(powerWatt / 60);       // 60W per TV LED
+                loadFan.textContent = Math.floor(powerWatt / 40);      // 40W per Fan
+
+                // Adjust Turbine Animation Speed based on Power Output
+                let speedSeconds = 3.0;
+                let rpmText = "Lambat (approx. 200 RPM)";
+
+                if (powerWatt > 3000) {
+                    speedSeconds = 0.4;
+                    rpmText = "Sangat Cepat (approx. 1200 RPM)";
+                } else if (powerWatt > 1500) {
+                    speedSeconds = 0.8;
+                    rpmText = "Cepat (approx. 800 RPM)";
+                } else if (powerWatt > 500) {
+                    speedSeconds = 1.5;
+                    rpmText = "Sedang (approx. 450 RPM)";
+                }
+
+                if (simTurbineSvg) simTurbineSvg.style.setProperty('--turbine-speed', `${speedSeconds}s`);
+                if (heroTurbineSvg) heroTurbineSvg.style.setProperty('--turbine-speed', `${speedSeconds}s`);
+                if (turbineSpeedText) turbineSpeedText.textContent = rpmText;
+            }
+
+            flowInput.addEventListener('input', calculatePower);
+            headInput.addEventListener('input', calculatePower);
+            calculatePower(); // Initial Run
+
+            // --- 3. Modul Ajar Tabs Navigation ---
+            const modulTabBtns = document.querySelectorAll('.modul-tab-btn');
+            const modulContents = document.querySelectorAll('.modul-content');
+
+            modulTabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-target');
+
+                    // Reset buttons
+                    modulTabBtns.forEach(b => {
+                        b.classList.remove('bg-hydro-600', 'text-white', 'shadow-md', 'shadow-hydro-500/20');
+                        b.classList.add('text-slate-600', 'hover:bg-slate-100');
+                    });
+
+                    // Active state for clicked button
+                    btn.classList.add('bg-hydro-600', 'text-white', 'shadow-md', 'shadow-hydro-500/20');
+                    btn.classList.remove('text-slate-600', 'hover:bg-slate-100');
+
+                    // Switch contents
+                    modulContents.forEach(content => {
+                        if (content.id === targetId) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            // --- 4. Interactive Quiz Engine ---
+            const quizQuestions = [
+                {
+                    question: "Apa yang dimaksud dengan energi terbarukan?",
+                    options: [
+                        "Energi buatan manusia dari bahan kimia berbahaya",
+                        "Energi yang bersumber dari alam dan dapat terus diproduksi secara alami tanpa habis",
+                        "Energi berbiaya mahal yang berasal dari fosil batu bara",
+                        "Energi yang hanya bisa dipakai satu kali saja"
+                    ],
+                    correct: 1,
+                    explanation: "Energi terbarukan berasal dari sumber daya alam berkelanjutan seperti air, angin, dan sinar matahari."
+                },
+                {
+                    question: "Berapa batas kapasitas daya maksimal dari pembangkit listrik skala PIKOHIDRO?",
+                    options: [
+                        "Kurang dari 5 kW (5.000 Watt)",
+                        "Antara 100 kW hingga 1 MW",
+                        "Lebih dari 10 MW",
+                        "Tidak terbatas"
+                    ],
+                    correct: 0,
+                    explanation: "Pikohidro merupakan klasifikasi pembangkit listrik tenaga air skala sangat kecil dengan daya di bawah 5 kW."
+                },
+                {
+                    question: "Komponen HIDROLAB apa yang bertugas mengubah energi mekanik putaran turbin menjadi energi listrik?",
+                    options: [
+                        "Pipa Pesat (Penstock)",
+                        "Control Unit",
+                        "Generator (Dinamo)",
+                        "Kabel tembaga"
+                    ],
+                    correct: 2,
+                    explanation: "Generator atau dinamo memanfaatkan induksi elektromagnetik untuk mengubah energi putaran menjadi listrik."
+                },
+                {
+                    question: "Mengapa posisi air yang jatuh dari ketinggian (Head) lebih menguntungkan untuk pikohidro?",
+                    options: [
+                        "Agar air terlihat lebih indah",
+                        "Karena semakin tinggi air jatuh, energi potensial dan tekanan air yang menumbuk turbin makin besar",
+                        "Agar turbin tidak basah",
+                        "Karena air tinggi suhunya lebih dingin"
+                    ],
+                    correct: 1,
+                    explanation: "Ketinggian jatuh (Head) berbanding lurus dengan potensial daya listrik yang bisa dihasilkan."
+                },
+                {
+                    question: "Apa keunggulan utama Pikohidro dibandingkan dengan Panel Surya (PLTS)?",
+                    options: [
+                        "Dapat menghasilkan listrik terus menerus selama 24 jam tanpa terpengaruh cuaca malam/mendung",
+                        "Harganya jauh lebih mahal",
+                        "Membutuhkan area tanah yang sangat luas",
+                        "Menghasilkan asap pembakaran"
+                    ],
+                    correct: 0,
+                    explanation: "Selama aliran air terjaga, pikohidro memproduksi daya secara konstan siang dan malam."
+                },
+                {
+                    question: "Apa fungsi dari Pipa Pesat (Penstock) pada HIDROLAB?",
+                    options: [
+                        "Menyaring sampah sungai",
+                        "Mengarahkan dan mengalirkan air bertekanan menuju turbin air",
+                        "Menyimpan cadangan listrik",
+                        "Mematikan mesin otomatis"
+                    ],
+                    correct: 1,
+                    explanation: "Pipa pesat (Penstock) mengarahkan aliran air agar memiliki dorongan kuat tepat mengenai sudu turbin."
+                }
+            ];
+
+            let currentQuestionIdx = 0;
+            let userAnswers = new Array(quizQuestions.length).fill(null);
+            let score = 0;
+
+            const quizStepText = document.getElementById('quiz-step-text');
+            const quizScoreBadge = document.getElementById('quiz-score-badge');
+            const quizQuestionText = document.getElementById('quiz-question-text');
+            const quizOptionsGrid = document.getElementById('quiz-options-grid');
+            const quizFeedback = document.getElementById('quiz-feedback');
+            const quizNextBtn = document.getElementById('quiz-next-btn');
+            const quizPrevBtn = document.getElementById('quiz-prev-btn');
+            const quizContainer = document.getElementById('quiz-container');
+            const quizResultBox = document.getElementById('quiz-result-box');
+
+            function renderQuestion() {
+                const q = quizQuestions[currentQuestionIdx];
+                quizStepText.textContent = `Pertanyaan ${currentQuestionIdx + 1} dari ${quizQuestions.length}`;
+                quizQuestionText.textContent = q.question;
+                
+                quizOptionsGrid.innerHTML = '';
+                quizFeedback.classList.add('hidden');
+                quizNextBtn.disabled = userAnswers[currentQuestionIdx] === null;
+
+                q.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = `w-full text-left p-4 rounded-2xl border transition text-sm flex items-center justify-between ${
+                        userAnswers[currentQuestionIdx] === idx
+                            ? 'border-hydro-500 bg-hydro-500/20 text-white font-bold'
+                            : 'border-slate-700 bg-slate-800/60 text-slate-300 hover:border-slate-500 hover:bg-slate-700/50'
+                    }`;
+
+                    btn.innerHTML = `
+                        <span>${opt}</span>
+                        <div class="w-5 h-5 rounded-full border border-slate-600 flex items-center justify-center text-[10px]">
+                            ${userAnswers[currentQuestionIdx] === idx ? '<i class="fa-solid fa-check text-hydro-400"></i>' : ''}
+                        </div>
+                    `;
+
+                    btn.addEventListener('click', () => selectAnswer(idx));
+                    quizOptionsGrid.appendChild(btn);
+                });
+
+                // Show option feedback if already answered
+                if (userAnswers[currentQuestionIdx] !== null) {
+                    showFeedback(userAnswers[currentQuestionIdx]);
+                }
+
+                // Prev button visibility
+                if (currentQuestionIdx > 0) {
+                    quizPrevBtn.classList.remove('hidden');
+                } else {
+                    quizPrevBtn.classList.add('hidden');
+                }
+
+                if (currentQuestionIdx === quizQuestions.length - 1) {
+                    quizNextBtn.innerHTML = 'Lihat Hasil <i class="fa-solid fa-trophy ml-1"></i>';
+                } else {
+                    quizNextBtn.innerHTML = 'Pertanyaan Selanjutnya <i class="fa-solid fa-arrow-right ml-1"></i>';
+                }
+            }
+
+            function selectAnswer(optIdx) {
+                userAnswers[currentQuestionIdx] = optIdx;
+                quizNextBtn.disabled = false;
+                renderQuestion();
+            }
+
+            function showFeedback(selectedIdx) {
+                const q = quizQuestions[currentQuestionIdx];
+                const isCorrect = selectedIdx === q.correct;
+
+                quizFeedback.classList.remove('hidden', 'bg-emerald-500/20', 'border-emerald-500/30', 'text-emerald-300', 'bg-rose-500/20', 'border-rose-500/30', 'text-rose-300');
+                
+                if (isCorrect) {
+                    quizFeedback.classList.add('bg-emerald-500/20', 'border', 'border-emerald-500/30', 'text-emerald-300');
+                    quizFeedback.innerHTML = `
+                        <div class="font-bold flex items-center"><i class="fa-solid fa-circle-check mr-1.5"></i> Jawaban Tepat!</div>
+                        <p>${q.explanation}</p>
+                    `;
+                } else {
+                    quizFeedback.classList.add('bg-rose-500/20', 'border', 'border-rose-500/30', 'text-rose-300');
+                    quizFeedback.innerHTML = `
+                        <div class="font-bold flex items-center"><i class="fa-solid fa-circle-xmark mr-1.5"></i> Kurang Tepat</div>
+                        <p>${q.explanation}</p>
+                    `;
+                }
+            }
+
+            quizNextBtn.addEventListener('click', () => {
+                if (currentQuestionIdx < quizQuestions.length - 1) {
+                    currentQuestionIdx++;
+                    renderQuestion();
+                } else {
+                    calculateFinalScore();
+                }
+            });
+
+            quizPrevBtn.addEventListener('click', () => {
+                if (currentQuestionIdx > 0) {
+                    currentQuestionIdx--;
+                    renderQuestion();
+                }
+            });
+
+            function calculateFinalScore() {
+                let correctCount = 0;
+                quizQuestions.forEach((q, idx) => {
+                    if (userAnswers[idx] === q.correct) correctCount++;
+                });
+
+                score = Math.round((correctCount / quizQuestions.length) * 100);
+
+                quizContainer.classList.add('hidden');
+                quizResultBox.classList.remove('hidden');
+
+                document.getElementById('final-score-text').textContent = `${score} / 100`;
+
+                // Launch Confetti Animation if score > 60
+                if (score >= 60 && typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+                }
+            }
+
+            renderQuestion(); // Initial Quiz Render
+
+            // --- 5. Certificate Generator Modal Logic ---
+            const generateCertBtn = document.getElementById('generate-cert-btn');
+            const certModal = document.getElementById('certificate-modal');
+            const closeCertBtn = document.getElementById('close-cert-btn');
+            const certNameInput = document.getElementById('user-cert-name');
+            const certHolderName = document.getElementById('cert-holder-name');
+            const certDate = document.getElementById('cert-date');
+            const certId = document.getElementById('cert-id');
+
+            generateCertBtn.addEventListener('click', () => {
+                const name = certNameInput.value.trim() || 'Peserta HIDROLAB';
+                certHolderName.textContent = name;
+                
+                // Format today's date
+                const now = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                certDate.textContent = now.toLocaleDateString('id-ID', options);
+
+                // Generate random cert code
+                const randomNum = Math.floor(1000 + Math.random() * 9000);
+                certId.textContent = `HDL-${now.getFullYear()}-${randomNum}`;
+
+                certModal.classList.remove('hidden');
+            });
+
+            closeCertBtn.addEventListener('click', () => {
+                certModal.classList.add('hidden');
+            });
+
+            certModal.addEventListener('click', (e) => {
+                if (e.target === certModal) {
+                    certModal.classList.add('hidden');
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
